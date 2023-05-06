@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href='/static/style.css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js"></script>
+    <meta charset="utf-8">
+    <title>NGCP WEBAPP</title>
+  </head>
+
+  <header>
+    <div class="row">
+      <div class="column">
+        <img src="http://10.110.206.70:8080/bgr" alt ="bgr" style="width:100%">
+      </div>
+      <div class="column">
+        <img src="http://10.110.206.70:8080/red" alt="red" style="width:100%">
+      </div>
+    </div>
+  </header>
+
+  <body>
+    <div class="row">
+      <div class="column">
+        <div class="slidecontainer">
+          <input type="range" min="0" max="100" value="0" class="slider" id="myRange1" name="myRange1" oninput="display(this.value, this.id)">
+          <span>Value: </span>
+          <span id="display1">0</span>
+        </div>
+
+        <div class="slidecontainer"></div>
+          <input type="range" min="0" max="100" value="0" class="slider" id="myRange2" name="myRange2" oninput="display(this.value, this.id)">
+          <span>Value: </span>
+          <span id="display2">0</span>
+        </div>
+
+        <div class="slidecontainer"></div>
+          <input type="range" min="0" max="100" value="0" class="slider" id="myRange3" name="myRange3" oninput="display(this.value, this.id)">
+          <span>Value: </span>
+          <span id="display3">0</span>
+        </div>
+      </div>
+
+      <div class="column">
+        <div class="slidecontainer">
+          <input type="range" min="0" max="100" value="0" class="slider" id="myRange4" name="myRange4" oninput="display(this.value, this.id)">
+          <span>Value: </span>
+          <span id="display4">0</span>
+        </div>
+
+        <div class="slidecontainer"></div>
+          <input type="range" min="0" max="100" value="0" class="slider" id="myRange5" name="myRange5" oninput="display(this.value, this.id)">
+          <span>Value: </span>
+          <span id="display5">0</span>
+        </div>
+
+        <div class="slidecontainer"></div>
+          <input type="range" min="0" max="100" value="0" class="slider" id="myRange6" name="myRange6" oninput="display(this.value, this.id)">
+          <span>Value: </span>
+          <span id="display6">0</span>
+        </div>
+      </div>
+    </div>
+  </body>
+
+
+
+
+    <script>
+        function display(val, id) {
+          var str = id;
+          var c = str.charAt(str.length - 1)
+          var val_id = "display" + c
+          document.getElementById(val_id).innerHTML = val;
+        }
+    </script>
+
+    <script type="text/javascript">
+      var socket = io()
+
+      function send(){
+        HSV_dict ={
+          'HSV1':$('#myRange1').val(),
+          'HSV2':$('#myRange2').val(),
+          'HSV3':$('#myRange3').val(),
+          'HSV4':$('#myRange4').val(),
+          'HSV5':$('#myRange5').val(),
+          'HSV6':$('#myRange6').val()
+        }
+
+        socket.emit('update',HSV_dict)
+      }
+
+      sending = setInterval(send, 1000);
+    </script>
+  </body>
+</html>
